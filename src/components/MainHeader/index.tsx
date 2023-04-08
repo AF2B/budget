@@ -1,12 +1,26 @@
-import react from 'react';
+import React from 'react';
 
-import { Container } from './styles';
+import useEmojisProvider from '../../utils/emojisProvider';
+import Toggle from '../Toggle';
+
+import {
+  Container,
+  Profile,
+  Welcome,
+  UserName
+} from './styles';
 
 const MainHeader: React.FC = () => {
+  const emojis = useEmojisProvider();
+
   return (
     <>
       <Container>
-        <h1>MainHeader</h1>
+        <Toggle></Toggle>
+        <Profile>
+          <Welcome>Olá, {emojis}</Welcome>
+          <UserName>André Borba</UserName>
+        </Profile>
       </Container>
     </>
   );

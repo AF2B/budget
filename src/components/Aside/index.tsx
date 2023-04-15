@@ -1,7 +1,7 @@
 import React from 'react';
 import { MdArrowDownward, MdArrowUpward, MdDashboard, MdExitToApp } from 'react-icons/md';
 
-import logoSvg from '../../assets/logo.svg';
+import logoSvg from '../../assets/logomarcaaf2b.svg';
 import { Container, Header, LogoImg, MenuContainer, MenuItemLink, Title } from './styles';
 
 const Aside: React.FC = () => {

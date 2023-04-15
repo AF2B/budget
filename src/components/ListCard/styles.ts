@@ -7,7 +7,7 @@ interface ITagProps {
 export const Container = styled.li`
   background-color: ${(props) => props.theme.colors.tertiary};
   list-style: none;
-  border-radius: 6px;
+  border-radius: 12px;
   margin: 10px 0;
   padding: 12px 8px;
   display: flex;
@@ -28,6 +28,11 @@ export const Container = styled.li`
   }
   > div span, div small {
     margin-left: 10px;
+  }
+
+  > div span {
+    font-size: 21px;
+    font-weight: 500;
   }
 `;
 

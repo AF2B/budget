@@ -74,8 +74,11 @@ const List: React.FC<IRouteParams> = () => {
     }
   ]
 
-  useEffect(() => {
-    const response = listData.map(item => {
+ useEffect(() => {
+  const formattedData = listData
+    .filter(item => new Date(item.date).getFullYear() === Number(yearSelected))
+    .filter(item => new Date(item.date).getMonth() + 1 === Number(monthSelected))
+    .map(item => {
       return {
         id: String(Math.random() * data.length),
         description: item.description,
@@ -84,9 +87,9 @@ const List: React.FC<IRouteParams> = () => {
         dateFormatted: formatDate(item.date),
         tagColor: item.frequency === 'recorrente' ? '#2699f0' : '#e50707'
       }
-    });
-    setData(response);
-  }, []);
+  });
+  setData(formattedData);
+}, [monthSelected, yearSelected]);
 
   return (
     <Container>

@@ -8,6 +8,7 @@ import expenses from '../../repositories/expenses';
 import gains from '../../repositories/gains';
 import formatCurrency from '../../utils/formatCurrency';
 import formatDate from '../../utils/formatDate';
+import listOfMonths from '../../utils/months';
 import { Container, Content, Filters } from './styles';
 
 interface IRouteParams {
@@ -44,20 +45,15 @@ const List: React.FC<IRouteParams> = () => {
     return type === 'entry-balance' ? gains : expenses;
   }, [type]);
 
-  const months = [
-    {
-      value: 7,
-      label: 'Julho'
-    },
-    {
-      value: 8,
-      label: 'Agosto'
-    },
-    {
-      value: 9,
-      label: 'Setembro'
-    }
-  ]
+  const month = useMemo(() => {
+    return listOfMonths.map((month, index) => {
+      return {
+        value: index + 1,
+        label: month
+      }
+    });
+
+  },[listData]);
 
   const years = useMemo(() => {
     let uniqueYears: number[] = [];
@@ -77,7 +73,7 @@ const List: React.FC<IRouteParams> = () => {
         label: year
       }
     });
-  },[listData]);
+  },[]);
 
  useEffect(() => {
   const formattedData = listData
@@ -99,7 +95,7 @@ const List: React.FC<IRouteParams> = () => {
   return (
     <Container>
       <ContentHeader title={title} lineColor={lineColor}>
-        <SelectInput options={months} onChange={event => setMonthSelected(event.target.value)} defaultValue={monthSelected}/>
+        <SelectInput options={month} onChange={event => setMonthSelected(event.target.value)} defaultValue={monthSelected}/>
         <SelectInput options={years} onChange={event => setYearSelected(event.target.value)} defaultValue={yearSelected}/>
       </ContentHeader>
       <Filters>

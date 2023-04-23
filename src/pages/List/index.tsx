@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { uuid } from 'uuidv4';
 
 import ContentHeader from '../../components/ContentHeader';
 import ListCard from '../../components/ListCard';
@@ -81,7 +82,7 @@ const List: React.FC<IRouteParams> = () => {
     .filter(item => new Date(item.date).getMonth() + 1 === Number(monthSelected))
     .map(item => {
       return {
-        id: String(Math.random() * data.length),
+        id: uuid(),
         description: item.description,
         amountFormatted: formatCurrency(Number(item.amount)),
         frequency: item.frequency,

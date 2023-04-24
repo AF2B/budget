@@ -45,6 +45,74 @@ const Dashboard: React.FC = () => {
     });
   },[]);
 
+  const totalExpenses = useMemo(() => {
+    let total: number = 0;
+
+    expenses.forEach(item => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+
+      if(month === Number(monthSelected) && year === Number(yearSelected)) {
+        try {
+          total += Number(item.amount);
+        } catch {
+          throw new Error('Invalid amount! Amount must be number.');
+        }
+      }
+    });
+    return total;
+  },[monthSelected, yearSelected]);
+
+  const totalGains = useMemo(() => {
+    let total: number = 0;
+
+    gains.forEach(item => {
+      const date = new Date(item.date);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+
+      if(month === Number(monthSelected) && year === Number(yearSelected)) {
+        try {
+          total += Number(item.amount);
+        } catch {
+          throw new Error('Invalid amount! Amount must be number.');
+        }
+      }
+    });
+    return total;
+  },[monthSelected, yearSelected]);
+
+  const totalBalance = useMemo(() => {
+    return totalGains - totalExpenses;
+  },[totalGains, totalExpenses]);
+
+  const messageInfo = useMemo(() => {
+    switch(true) {
+      case totalBalance < 0:
+        return {
+          title: 'Que triste!',
+          description: 'Neste mês, você gastou mais do que deveria.',
+          footerText: 'Verifique seus gastos e tente cortar algumas coisas desnecessárias.',
+          icon: sadImg
+        };
+      case totalBalance === 0:
+        return {
+          title: 'Ufaa!',
+          description: 'Neste mês, você gastou exatamente o que ganhou.',
+          footerText: 'Tenha cuidado. No próximo mês tente poupar o seu dinheiro.',
+          icon: happyImg
+        };
+      default:
+        return {
+          title: 'Muito bem!',
+          description: 'Sua carteira está positiva!',
+          footerText: 'Continue assim. Considere investir o seu saldo.',
+          icon: happyImg
+        };
+    }
+  }, [totalBalance]);
+
   return (
     <Container>
       <ContentHeader title={'Dashboard'} lineColor={'#fff'}>
@@ -55,31 +123,31 @@ const Dashboard: React.FC = () => {
       <Content>
         <InfoWalletBox
         title={'Saldo'}
-        amount={3.200}
+        amount={totalBalance}
         footerLabel={'atualizado com base nas entradas'}
         icon={'dolar'}
         color={'#4E41F0'}
         />
         <InfoWalletBox
         title={'Entradas'}
-        amount={4.500}
+        amount={totalGains}
         footerLabel={'atualizado com base nas entradas'}
         icon={'arrowUp'}
         color={'#F7931B'}
         />
         <InfoWalletBox
         title={'Saídas'}
-        amount={1.500}
+        amount={totalExpenses}
         footerLabel={'atualizado com base nas entradas'}
         icon={'arrowDown'}
         color={'#E44C4E'}
         />
 
         <MessageWalletBox
-        title={'Muito bem!'}
-        description={'Sua carteira está positiva!'}
-        footerText={'Continue assim. Considere investir o seu saldo.'}
-        icon={happyImg}
+        title={messageInfo.title}
+        description={messageInfo.description}
+        footerText={messageInfo.footerText}
+        icon={messageInfo.icon}
         />
       </Content>
     </Container>

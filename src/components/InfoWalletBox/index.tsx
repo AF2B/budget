@@ -45,7 +45,7 @@ const InfoWalletBox: React.FC<IInfoWalletBoxProps> = ({
           separator='.'
           decimal='.'
           decimals={3}
-          duration={4}
+          duration={3}
           preserveValue={true}
         />
       </h1>

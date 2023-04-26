@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 import sadImg from '../../assets/cryingface.svg';
 import happyImg from '../../assets/happy.svg';
 import ContentHeader from '../../components/ContentHeader';
+import DataPieChart from '../../components/DataPieChart';
 import InfoWalletBox from '../../components/InfoWalletBox';
 import MessageWalletBox from '../../components/MessageWalletBox';
 import SelectInput from '../../components/SelectInput';
@@ -113,6 +114,25 @@ const Dashboard: React.FC = () => {
     }
   }, [totalBalance]);
 
+  const relationExpensesGains = useMemo(() => {
+    const total = totalGains + totalExpenses;
+    const percentGains = Number(((totalGains / total) * 100).toFixed(0));
+    const percentExpenses = Number(((totalExpenses / total) * 100).toFixed(0));
+    const data = [{
+      name: 'Entradas',
+      value: totalGains,
+      percent: percentGains ? percentGains : 0,
+      color: '#F7931B'
+    },
+    {
+      name: 'Saídas',
+      value: totalExpenses,
+      percent: percentExpenses ? percentExpenses : 0,
+      color: '#E44C4E'
+    }];
+    return data;
+  },[totalGains, totalExpenses]);
+
   return (
     <Container>
       <ContentHeader title={'Dashboard'} lineColor={'#fff'}>
@@ -149,6 +169,8 @@ const Dashboard: React.FC = () => {
         footerText={messageInfo.footerText}
         icon={messageInfo.icon}
         />
+
+        <DataPieChart data={relationExpensesGains}/>
       </Content>
     </Container>
   );

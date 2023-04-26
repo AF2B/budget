@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/recharts": "^1.8.24",
     "@types/styled-components": "^5.1.26"
   }
 }

@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import Switch from 'react-switch';
 
-import {
-  ToggleLabel,
-  Container,
-  ToggleSelector,
-} from './styles';
+import { Container, ToggleLabel, ToggleSelector } from './styles';
 
-const Toggle: React.FC = () => {
+interface IToggleProps {
+  labelLeft: string;
+  labelRight: string;
+  checked: boolean;
+  onChange(): void;
+}
+
+const Toggle: React.FC<IToggleProps> = ({
+  labelLeft,
+  labelRight,
+  checked,
+  onChange
+}) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleToggleChange = (checked: boolean) => {
@@ -17,15 +25,14 @@ const Toggle: React.FC = () => {
 
   return (
     <Container>
-      <ToggleLabel>Light</ToggleLabel>
+      <ToggleLabel>{labelLeft}</ToggleLabel>
       <ToggleSelector
-        onColor='#FFB800'
-        checked={isChecked}
+        checked={checked}
         uncheckedIcon={false}
         checkedIcon={false}
-        onChange={handleToggleChange}
+        onChange={onChange}
       />
-      <ToggleLabel>Dark</ToggleLabel>
+      <ToggleLabel>{labelRight}</ToggleLabel>
     </Container>
   );
 };
